@@ -240,3 +240,34 @@ The home screen may include a small recent-work or next-step area, but should no
 A teacher should be able to open the app and understand what to do next within seconds. They should be able to start or continue planning tomorrow's lesson without needing to understand the entire PYP Hub. Complexity should be available on demand, never imposed as the entry fee.
 
 This is a navigation and experience principle, not a reduction in the long-term product vision. The full connected system remains the goal; the interface reveals it gradually.
+
+
+## Planning templates and printable output
+
+**Agreed requirement:** The planner must use established PYP planning structures as a reference and produce professional, printable unit-planning documents. The application must not invent a generic form that ignores the forms teachers actually use.
+
+### Template approach
+
+- Use official IB sample planners and current public IB guidance as reference material, checking publication date and relevance before treating any field as current guidance.
+- Clearly distinguish an official IB example, an IB requirement supported by current guidance, and a school-specific requirement. Do not imply that every field in an older sample planner is mandatory.
+- Support the school's own unit-planning template as a first-class option. When available, use the real school form as the practical target rather than expecting teachers to copy the AI's output manually into another document.
+- Design the data model around the planning content itself, separately from the layout. This allows the same unit to be rendered in the reference template, the school's form, or another export layout without re-entering content.
+- Allow the user to map the unit's fields to headings, tables and sections in the chosen template. Preserve school-specific labels and fields rather than silently replacing them with generic labels.
+
+### Print and export requirements
+
+- Produce a clean, professional, print-ready unit planner, initially prioritising a Word document and PDF.
+- Support A4 paper by default, sensible margins, readable type, consistent headings, well-sized tables, page numbers and clear page breaks.
+- Prevent table rows and headings from splitting awkwardly across pages where practical. Avoid tiny text, clipped content, blank pages and excessive page breaks.
+- Include useful teacher reflection sections and enough writing space when the selected form calls for it.
+- Offer a print preview or export preview so the teacher can check pagination before printing.
+- Make sure the exported document contains the saved, teacher-approved content—not unsaved suggestions or AI edits that the teacher has not accepted.
+- Preserve an editable source document where supported, so the teacher can make final school-specific adjustments.
+
+### Implementation principle
+
+The web interface is for creating and improving the unit; the printable document is a core deliverable, not an afterthought. Validate export quality with a complete example unit and inspect the generated Word/PDF pages before calling the feature complete.
+
+### First practical step
+
+Before building a full template editor, start with a reference template based on the relevant official IB sample planner and make the output print well. Then obtain or upload the user's actual school unit-planning form and add it as a supported school template. This avoids overbuilding before the real form is available.
