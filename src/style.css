@@ -24,3 +24,24 @@
 
 .poiTable{width:100%;border-collapse:collapse;margin:14px 0;font-size:9px}.poiTable th{background:#e6f3f1;color:#17364d;text-align:left;font-weight:800}.poiTable th,.poiTable td{border:1px solid #cad8d6;padding:8px;vertical-align:top}.poiTable td{height:64px}.writeField{margin:15px 0;break-inside:avoid}.writeField h3{font-size:11px;margin:0 0 4px}.writeField p{font-size:9px;color:#647478;margin:0 0 7px}.writingLines{height:22px;border-bottom:1px solid #c6d3d1}
 @media print{.poiTable{font-size:8px!important}.poiTable th,.poiTable td{padding:6px!important}.poiTable td{height:58px}.writingLines{height:20px}}
+
+/* Compact print centre: select a document, not a fixed page number. */
+.printCentre{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 24px;padding:12px 14px;border:1px solid #dce8e5;border-radius:12px;background:#f8fbfa}
+.printCentre label{font-size:12px;font-weight:800;color:#25414a}
+.printCentre select{min-width:220px;max-width:100%;padding:10px 12px;border:1px solid #cbdad7;border-radius:8px;background:#fff;color:#17364d;font:inherit;font-size:12px}
+@media print{
+ .printCentre,.intro.noPrint{display:none!important}
+ .printPage .printSection{display:block!important}
+ .printPage.printChoice-unit [data-print-section="poi"],
+ .printPage.printChoice-unit [data-print-section="collaboration"],
+ .printPage.printChoice-unit [data-print-section="agency"]{display:none!important}
+ .printPage.printChoice-overview [data-print-section]:not([data-print-section="overview"]),
+ .printPage.printChoice-design [data-print-section]:not([data-print-section="design"]),
+ .printPage.printChoice-sequence [data-print-section]:not([data-print-section="sequence"]),
+ .printPage.printChoice-assessment [data-print-section]:not([data-print-section="assessment"]),
+ .printPage.printChoice-reflection [data-print-section]:not([data-print-section="reflection"]),
+ .printPage.printChoice-poi [data-print-section]:not([data-print-section="poi"]),
+ .printPage.printChoice-collaboration [data-print-section]:not([data-print-section="collaboration"]),
+ .printPage.printChoice-agency [data-print-section]:not([data-print-section="agency"]){display:none!important}
+ .printPage.printChoice-overview [data-print-section="overview"]{break-before:auto!important;page-break-before:auto!important}
+}
