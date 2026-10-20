@@ -53,3 +53,24 @@ npm run preview
 The planner should support inquiry, conceptual understanding, student agency, purposeful assessment, reflection and thoughtful alignment. It should explain suggestions and never claim an AI-generated unit is officially IB-approved. Use current official IB resources and school-specific guidance alongside this tool.
 
 Official PYP overview: https://www.ibo.org/programmes/primary-years-programme/
+
+
+## Deploy online (no custom domain required)
+
+Cloudflare Pages is the preferred first hosting option for this private repository.
+
+In Cloudflare:
+1. Open **Workers & Pages** and choose **Create application** → **Pages** → **Connect to Git**.
+2. Authorize GitHub if prompted, then select `mstoel/ib-pyp-planner`.
+3. Use these build settings:
+   - Framework preset: **Vite**
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+4. Deploy. Cloudflare will provide a `*.pages.dev` address; no purchased domain is required.
+5. Future commits to `main` can trigger automatic redeployments.
+
+Cloudflare account authorization must be completed by the account owner; it cannot safely be bypassed from this repository connection.
+
+### Before sharing with other teachers
+
+This first version is a prototype. It currently saves drafts in the browser on the device being used, and it does not yet have login, shared cloud storage, or live AI mentoring. Add those features before relying on it for important plans or student information.
