@@ -209,3 +209,34 @@ The prototype should be evaluated by asking: **Does this system help the user bo
 ## Agreed direction
 
 The PYP Planner is not merely a planner with AI features. It is a connected system for **professional learning, collaborative writing, inquiry design, classroom practice and continuous improvement**. The AI must be able to teach, draft, critique and revise—not just offer advice.
+
+
+## Dashboard and navigation: simple on the surface, powerful underneath
+
+**Agreed direction:** Use a hybrid dashboard for the PYP Hub. The home screen should be calm and simple, while each section offers guidance and advanced capabilities when needed. Do not expose the entire system as a complicated checklist or control panel.
+
+### Home screen priorities
+
+The default landing screen should help the teacher resume meaningful work quickly. Give current/recent units and a clear **Continue planning** action the strongest emphasis. Provide four clear destinations:
+
+1. **My Units** — create, continue, organise and improve unit plans.
+2. **Learn PYP** — develop PYP understanding and professional judgement, with learning embedded in practical planning.
+3. **Teaching Memory** — review past lessons and retrieve relevant successes, difficulties and patterns.
+4. **Programme of Inquiry** — view and consider connections across units and the six transdisciplinary themes.
+
+The home screen may include a small recent-work or next-step area, but should not become a dense analytics dashboard. The Programme of Inquiry and Teaching Memory remain accessible without competing with the immediate task of planning.
+
+### Progressive guidance
+
+- Keep the landing screen focused on a few obvious choices.
+- Put contextual guidance, examples and AI assistance inside each section, where the user needs them.
+- Support both **guided** and **fast** workflows. Do not force experienced users through every step or require all fields to be completed before progress is possible.
+- Introduce advanced options only when relevant; use plain language for navigation and labels.
+- Make the AI feel like a helpful partner in the current task, not a separate complicated control panel.
+- Keep sections connected behind the scenes: for example, relevant teaching reviews can inform a new unit without the user having to manually manage the memory system.
+
+### Design test
+
+A teacher should be able to open the app and understand what to do next within seconds. They should be able to start or continue planning tomorrow's lesson without needing to understand the entire PYP Hub. Complexity should be available on demand, never imposed as the entry fee.
+
+This is a navigation and experience principle, not a reduction in the long-term product vision. The full connected system remains the goal; the interface reveals it gradually.
