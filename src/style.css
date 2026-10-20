@@ -48,4 +48,41 @@
 
 .poiNotice,.alignmentBox,.alignmentWarning{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border:1px solid #d5e5e0;border-radius:12px;background:#f4faf7;margin:16px 0;color:#254a41}.poiNotice p,.alignmentBox p,.alignmentWarning p{margin:5px 0 0;font-size:12px;line-height:1.7;color:#62756b}.alignmentBox,.alignmentWarning{display:block;margin:14px 0}.alignmentBox>b{display:flex;align-items:center;gap:7px}.alignmentWarning{background:#fff8e9;border-color:#f0dfb8;color:#775a1b}.filterBar{display:flex;gap:14px;align-items:end;flex-wrap:wrap;padding:14px;background:#fff;border:1px solid #e2eae7;border-radius:12px;margin:18px 0}.filterBar label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;color:#425b55}.filterBar select{min-width:155px;padding:9px;border:1px solid #d4e0dc;border-radius:8px;background:#fff;color:#17364d}.filterBar>span{margin-left:auto;font-size:11px;color:#77867e}.poiEntries{display:grid;gap:14px}.poiEntry{background:#fff;border:1px solid #e0e8e5;border-radius:14px;padding:19px}.poiEntryHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}.poiEntryHead small,.scenarioHeader small{font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:#0f8f98;font-weight:800}.poiEntryHead h2{font:800 18px Manrope,sans-serif;margin:6px 0;color:#17364d}.poiEntryActions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.poiMeta{display:flex;gap:8px;flex-wrap:wrap;margin:7px 0 15px}.poiMeta span{background:#edf5f2;color:#4f7164;border-radius:99px;padding:5px 9px;font-size:10px}.poiContent{display:grid;grid-template-columns:1fr 1fr;gap:18px}.poiContent h3{font-size:11px;margin:0 0 7px;color:#0f777a}.poiContent p{font-size:12px;line-height:1.75;white-space:pre-line;color:#4c5f57;margin:0}.poiEdit{padding-top:14px;border-top:1px solid #e8efec}.poiEdit .muted{font-size:10px;line-height:1.6}.iconBtn{border:1px solid #e0e7e4;background:white;color:#78867f;border-radius:8px;padding:9px;display:grid;place-items:center}.scenarioPanel{border:1px solid #d4e6df;background:#f8fcfa;border-radius:18px;padding:24px;margin:18px 0 28px}.scenarioHeader{display:flex;align-items:flex-start;gap:13px;margin-bottom:20px}.scenarioHeader h2{font:800 21px Manrope,sans-serif;margin:5px 0;color:#17364d}.scenarioSituation,.scenarioQuestion,.scenarioFollow{padding:15px 17px;background:#fff;border:1px solid #e2eae6;border-radius:12px;margin:12px 0}.scenarioSituation b,.scenarioQuestion b,.scenarioFollow b{font-size:11px;color:#176e68}.scenarioSituation p,.scenarioQuestion p,.scenarioFollow p{font-size:13px;line-height:1.8;color:#465c53;margin:7px 0 0}.scenarioPanel .field textarea{background:#fff}.scenarioEmpty{text-align:center;padding:25px 10px}.scenarioEmpty p{max-width:560px;margin:0 auto 22px;color:#61756a;font-size:13px;line-height:1.8}.portfolio{margin:24px 0}.portfolioItem{padding:17px;background:#fff;border:1px solid #e1e9e6;border-radius:12px;margin:12px 0}.portfolioItem small{font-size:10px;color:#0f8f98}.portfolioItem h3{font-size:13px;margin:7px 0 12px}.portfolioItem p{font-size:12px;line-height:1.8;color:#50635b;white-space:pre-wrap}.portfolioItem .btn{margin-top:5px}
 @media(max-width:650px){.poiContent{grid-template-columns:1fr}.poiEntry{padding:14px}.scenarioPanel{padding:16px}.poiEntryActions{width:100%}.filterBar>span{margin-left:0}}
-@media print{.poiEntryActions,.filterBar,.page>.intro .heroActions{display:none!important}.poiEntry{break-inside:avoid}.poiContent{grid-template-columns:1fr 1fr}}
+.poiPrintSheet{display:none}
+@media print{
+ @page{size:A3 landscape;margin:9mm}
+ body{background:#fff!important;color:#18364a!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .shell{display:block!important;min-height:0!important}
+ .sidebar,.topbar{display:none!important}
+ main{padding:0!important;margin:0!important;width:100%!important}
+ .page{display:none!important}
+ .page.narrow:has(.poiPrintSheet){display:block!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+ .poiPrintSheet{display:block!important;font-family:'DM Sans',Arial,sans-serif;width:100%;color:#17364d}
+ .poiPrintMasthead{margin-bottom:5mm}
+ .poiPrintBrand{font-size:8pt;letter-spacing:1.6px;font-weight:800;color:#0f8f98}
+ .poiPrintBrand span{color:#f6b84b}
+ .poiPrintMasthead h1{font-family:'Manrope',Arial,sans-serif;font-size:23pt;line-height:1.05;margin:2mm 0 1.5mm;color:#12334b}
+ .poiPrintMasthead p{font-size:9pt;margin:0;color:#587080}
+ .poiPrintRule{height:3px;background:linear-gradient(90deg,#0f8f98 0 35%,#f6b84b 35% 49%,#17364d 49% 100%);margin-top:4mm}
+ .poiPrintTable{border-collapse:collapse;table-layout:fixed;width:100%;font-size:7.1pt}
+ .poiPrintTable th,.poiPrintTable td{border:1px solid #cbd8df;padding:2.2mm;vertical-align:top;overflow-wrap:anywhere}
+ .poiPrintTable thead th{background:#17364d!important;color:#fff!important;font-size:9pt;text-align:left;padding:2.5mm}
+ .poiPrintTable .themeCol{width:15%}
+ .poiPrintTable .themeCell{width:15%;text-align:left;font-size:8pt;color:#fff!important;vertical-align:middle}
+ .poiPrintTable .themeCell span{display:block}
+ .poiPrintTable .themeTone0{background:#236b86!important}
+ .poiPrintTable .themeTone1{background:#4b658c!important}
+ .poiPrintTable .themeTone2{background:#8a5a86!important}
+ .poiPrintTable .themeTone3{background:#287f7c!important}
+ .poiPrintTable .themeTone4{background:#b36c37!important}
+ .poiPrintTable .themeTone5{background:#5e7c4c!important}
+ .poiPrintTable td{background:#fff!important}
+ .poiPrintUnitTitle{display:block;font-size:7.8pt;line-height:1.15;margin-bottom:1.2mm;color:#17364d}
+ .poiPrintTable td p{font-size:6.9pt;line-height:1.28;margin:0;color:#405767}
+ .poiPrintMissing{color:#8998a1;font-style:italic}
+ .poiPrintFooter{display:flex;justify-content:space-between;gap:8mm;margin-top:3mm;padding-top:2mm;border-top:1px solid #cbd8df;font-size:6.8pt;color:#617580}
+ .poiPrintFooter span:last-child{text-align:right}
+ .poiPrintSheet~.intro,.poiPrintSheet~.poiNotice,.poiPrintSheet~.filterBar,.poiPrintSheet~.poiEntries,.poiPrintSheet~.note{display:none!important}
+ .poiEntryActions,.filterBar,.page>.intro .heroActions{display:none!important}
+ .poiEntry{break-inside:avoid}.poiContent{grid-template-columns:1fr 1fr}
+}
