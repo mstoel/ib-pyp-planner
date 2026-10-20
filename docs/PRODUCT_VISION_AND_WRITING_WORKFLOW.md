@@ -95,6 +95,39 @@ Transdisciplinary planning must not be reduced to assigning a subject label to e
 
 A core feature is a persistent, searchable record of lesson reviews. A reflection must not disappear into an old chat or remain attached only to a document that the AI never consults again. The system should be able to retrieve relevant past experience when helping plan a future lesson or unit.
 
+### Agreed interaction and memory behaviour
+
+The following design choices are agreed for the first version:
+
+- **Quick by default, detailed when needed.** Offer a low-friction review that can be completed in roughly 1–2 minutes, with optional prompts for deeper reflection. Users can dictate or type rough notes; the AI can organise them into a proposed review for the teacher to check before saving.
+- **Remember successes and difficulties.** Store effective approaches as well as problems, with the reasons, classroom context and evidence where available. Include what was tried, what happened, what may have contributed, and what the teacher wants to retain or change.
+- **Use memory actively in future planning.** Surface relevant prior experiences when planning similar lessons, warn when a new plan resembles a previously problematic approach, and analyse patterns across multiple reviews. Make these suggestions visible and actionable rather than silently changing the plan.
+
+### The review interaction
+
+The default review should be short and conversational. It may ask:
+
+1. What went well?
+2. What was difficult or did not work as expected?
+3. What do you think contributed to that?
+4. What should we keep, change or try next time?
+
+Questions can be skipped. If the teacher identifies a meaningful issue or asks for deeper analysis, offer an optional detailed review about student evidence, misconceptions, timing, instructions, grouping, differentiation, resources and unexpected student questions. The AI must not pressure the teacher to complete every field.
+
+The teacher should be able to save a review immediately, edit the AI's proposed summary, or return to it later. A review should remain useful even when the teacher records only a few sentences.
+
+### Retrieval, warnings and pattern analysis
+
+During future planning, provide a compact section such as **“What your previous lessons tell us”**. It should show:
+- Relevant past successes that may be worth reusing.
+- Relevant difficulties and a practical prevention or adaptation suggestion.
+- Links to the source reviews, including year group/date and the context that makes them relevant.
+- Pattern summaries with the number of supporting reviews, dates or time span, and any conflicting examples.
+
+Warnings must be proportionate, not absolute. Say, for example, “This resembles two previous activities where students needed more modelling,” rather than “This will fail.” Let the teacher dismiss a warning, mark it not relevant, or add context. Those actions may inform future retrieval but must not erase the original review.
+
+Pattern analysis should require multiple relevant observations and account for context. Distinguish repeated evidence from a tentative hypothesis; never claim that correlation proves the cause. A single event can still be surfaced as a useful reminder, but must not be labelled a reliable pattern.
+
 ### After a lesson
 
 Make the review quick enough to use consistently. The teacher can record, in plain language:
