@@ -11,7 +11,7 @@ A personal, beginner-friendly planning workspace for learning and applying the I
 - Online teaching and review form
 - Combined print preview for browser printing or Save as PDF
 - Guided mentor review with actionable checks for central idea, inquiry pathways, concepts/ATL, learning sequence, assessment, agency and reflection
-- Guided mentor review with actionable checks for central idea, inquiry pathways, concepts/ATL, learning sequence, assessment, agency and reflection
+- Connected planning suggestions that use your current unit choices and let you review before applying
 - Six transdisciplinary theme options
 - Central idea, lines of inquiry, key concepts, learner profile and ATL planning fields
 - Prompts for prior knowledge, student questions, learning experiences, assessment, agency and reflection
@@ -41,9 +41,9 @@ npm run preview
 ## Current limitations
 
 - Drafts are stored in the current browser using localStorage; they are not synced between devices.
-- The first MVP does not yet call an AI API. The guide and checklist are starter features.
+- Connected planning suggestions are currently rule-based examples, not generative AI. A secure AI mentor is a later phase.
 - Never add API keys or secrets to frontend code or commit them to Git.
-- Export creates a plain-text planning pack including the unit and learning sequence. The print preview combines the unit, experiences, teaching record and reflection for browser printing or Save as PDF. The mentor review currently uses transparent, rule-based prompts from the information entered; it is not connected to a generative AI model yet. A polished designed PDF/DOCX export is a later milestone. The mentor review currently uses transparent, rule-based prompts from the information entered; it is not connected to a generative AI model yet.
+- Export creates a plain-text planning pack including the unit and learning sequence. The print preview combines the unit, experiences, teaching record and reflection for browser printing or Save as PDF. The mentor review and connected planning suggestions currently use transparent, rule-based prompts. They are not connected to a generative AI model yet. A polished designed PDF/DOCX export is a later milestone.
 
 ## Planned next milestones
 
@@ -62,16 +62,7 @@ Official PYP overview: https://www.ibo.org/programmes/primary-years-programme/
 
 ## Deploy online (no custom domain required)
 
-Cloudflare Pages is the preferred first hosting option for this private repository.
-
-In Cloudflare:
-1. Open **Workers & Pages** and choose **Create application** → **Pages** → **Connect to Git**.
-2. Authorize GitHub if prompted, then select `mstoel/ib-pyp-planner`.
-3. Use these build settings:
-   - Framework preset: **Vite**
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-4. Deploy. Cloudflare will provide a `*.pages.dev` address; no purchased domain is required.
+The repository now includes a GitHub Pages deployment workflow. The intended URL is `https://mstoel.github.io/ib-pyp-planner/`. GitHub Pages must be available and enabled for this private repository; check the **Actions** tab for deployment status. If GitHub Pages is not available for the repository's plan or settings, connect the repository to Cloudflare Pages instead using Vite, `npm run build`, and `dist` as the output directory.ges.dev` address; no purchased domain is required.
 5. Future commits to `main` can trigger automatic redeployments.
 
 Cloudflare account authorization must be completed by the account owner; it cannot safely be bypassed from this repository connection.
