@@ -91,6 +91,60 @@ The system should help the user examine conceptual connections, progression, bal
 
 Transdisciplinary planning must not be reduced to assigning a subject label to every lesson. Subject knowledge and skills should be included when they contribute meaningfully to the inquiry, and explicit subject teaching remains possible when appropriate.
 
+## Teaching Experience Database: learn from what actually happened
+
+A core feature is a persistent, searchable record of lesson reviews. A reflection must not disappear into an old chat or remain attached only to a document that the AI never consults again. The system should be able to retrieve relevant past experience when helping plan a future lesson or unit.
+
+### After a lesson
+
+Make the review quick enough to use consistently. The teacher can record, in plain language:
+
+- What went well, and what evidence suggests it went well.
+- What did not go well, or what students found difficult.
+- The context: year group, learning goal, activity, grouping, resources, instructions and available time.
+- The likely reasons, while distinguishing observed facts from hypotheses.
+- Student responses, questions, misconceptions or evidence of learning.
+- What the teacher changed during the lesson.
+- What to keep, change or try next time.
+
+Not every field is required. The AI can help turn rough notes into a concise review, but the teacher must be able to correct it before saving.
+
+### What the database should preserve
+
+Store the review as structured, searchable data linked to the actual lesson, unit, year group, learning goal and activity where possible. Preserve the original teacher notes alongside any AI-organised summary. Record the date and, when relevant, the version of the lesson or resources used. Support tags such as timing, instructions, engagement, differentiation, misconceptions, resources and assessment.
+
+Distinguish:
+- **Observation:** what the teacher actually saw or collected.
+- **Interpretation:** a possible explanation for the result.
+- **Next-step decision:** what to repeat, adapt, investigate or avoid next time.
+
+Do not turn one disappointing lesson into a permanent universal rule. Store context and uncertainty, and allow the teacher to revise a conclusion when more evidence becomes available.
+
+### How AI should reuse teaching experience
+
+When drafting a lesson or unit, retrieve relevant past reviews and make them visible to the teacher. For example:
+
+> “In a previous Year 5 lesson, this type of open-ended group task ran over time because groups needed more modelling. Consider a worked example and shorter first task. This is based on your review from [date].”
+
+The system should:
+- Retrieve by relevance, not just the newest review.
+- Consider year group, learning goal, activity type, class context and resources.
+- Explain which previous review informed a recommendation and provide a link to it.
+- Suggest adaptations rather than silently changing the plan.
+- Allow the teacher to accept, dismiss or correct the recommendation.
+- Learn from repeated patterns cautiously, showing how many reviews support a pattern and noting conflicting evidence.
+- Use reflections from both successful and unsuccessful lessons.
+
+The application should not claim that it has independently learned a reliable teaching rule merely because AI generated a summary. Initially, this is **retrieval from the teacher's own stored experience**, followed by transparent pattern summaries as enough relevant evidence accumulates. No model fine-tuning is needed for the first version.
+
+### Keep planning and teaching separate
+
+Keep the intended lesson plan, what actually happened and the post-lesson reflection as related but distinct records. If the lesson is revised later, preserve the earlier version and link the review to the version that was taught. This makes it possible to compare plan versus practice without rewriting history.
+
+### Example future-planning behaviour
+
+If a teacher records that a Year 4 investigation was engaging but students could not explain their conclusions, a future AI suggestion might include sentence frames, a short teacher modelling step and an explicit evidence-based explanation task. The system should say that these are proposed responses to the earlier observation, not proven solutions.
+
 ## Product principles
 
 - **Useful writing over empty forms:** help the user make progress even when their initial idea is incomplete.
@@ -115,7 +169,7 @@ The first end-to-end prototype should let the user:
 - Save the project persistently and reopen it later.
 - Preserve revisions rather than silently overwriting work.
 - Export a professional unit document.
-- Record a reflection on what happened and what should change next time.
+- Save a structured lesson reflection, reopen it later, and see relevant prior reviews surfaced during future planning.
 
 The prototype should be evaluated by asking: **Does this system help the user both finish a real unit plan and better understand the reasoning behind it?**
 
