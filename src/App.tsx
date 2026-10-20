@@ -77,6 +77,8 @@ const guides=[
 function OwlMark(){return <svg viewBox="0 0 100 76" aria-label="Two Wise Old Owls logo" role="img"><path d="M8 18 4 2 24 13Q36 2 49 13L62 2 59 20Q68 38 58 56L50 67 35 63 19 69 8 56Q0 37 8 18Z" fill="#0e3859"/><path d="M53 18 50 2 69 13Q82 2 94 13L98 2 95 21Q102 39 91 56L81 68 67 63 54 69 45 56Q38 37 53 18Z" fill="#0f8f98"/><circle cx="27" cy="33" r="13" fill="#fff"/><circle cx="70" cy="33" r="13" fill="#fff"/><circle cx="27" cy="33" r="7" fill="#0e3859"/><circle cx="70" cy="33" r="7" fill="#0e3859"/><path d="M36 46 43 46 40 53Z M79 46 86 46 82 53Z" fill="#f6b84b"/></svg>}
 function App(){
  const [plan,setPlan]=useState<Plan>(()=>{try{return {...blank,...JSON.parse(localStorage.getItem('pyp-planner-draft')||'{}')}}catch{return blank}});
+ const [currentDraftKey,setCurrentDraftKey]=useState('');
+ const [unitDrafts,setUnitDrafts]=useState<Record<string,Plan>>(()=>{try{return JSON.parse(localStorage.getItem('pyp-planner-unit-drafts')||'{}')}catch{return {}}});
  const [poiEntries,setPoiEntries]=useState<PoiEntry[]>(()=>{try{return JSON.parse(localStorage.getItem('pyp-planner-poi')||'null')||samplePoi}catch{return samplePoi}});
  const [poiYear,setPoiYear]=useState('All year groups'); const [poiTheme,setPoiTheme]=useState('All themes'); const [editingPoi,setEditingPoi]=useState<number|null>(null);
  const [scenario,setScenario]=useState<typeof scenarioBank[number]|null>(null); const [scenarioAnswer,setScenarioAnswer]=useState(''); const [scenarioReflection,setScenarioReflection]=useState('');
@@ -85,6 +87,8 @@ function App(){
  const [page,setPage]=useState('Overview'); const [printChoice,setPrintChoice]=useState('all'); const [help,setHelp]=useState<string|null>(null); const [notice,setNotice]=useState('');
  const [suggestion,setSuggestion]=useState<{plan:Partial<Plan>;lessons:Lesson[]}|null>(null); const [sourceSnapshot,setSourceSnapshot]=useState(''); const [lessons,setLessons]=useState<Lesson[]>(()=>{try{return JSON.parse(localStorage.getItem('pyp-planner-lessons')||'null')||starterLessons}catch{return starterLessons}});
  useEffect(()=>{localStorage.setItem('pyp-planner-draft',JSON.stringify(plan))},[plan]);
+ useEffect(()=>{localStorage.setItem('pyp-planner-unit-drafts',JSON.stringify(unitDrafts))},[unitDrafts]);
+ useEffect(()=>{if(currentDraftKey){setUnitDrafts(items=>({...items,[currentDraftKey]:plan}));localStorage.setItem('pyp-planner-unit-drafts',JSON.stringify({...unitDrafts,[currentDraftKey]:plan}))}},[plan,currentDraftKey]);
  useEffect(()=>{localStorage.setItem('pyp-planner-lessons',JSON.stringify(lessons))},[lessons]);
  useEffect(()=>{localStorage.setItem('pyp-planner-poi',JSON.stringify(poiEntries))},[poiEntries]);
  useEffect(()=>{localStorage.setItem('pyp-planner-scenarios',JSON.stringify(scenarioHistory))},[scenarioHistory]);
@@ -92,7 +96,7 @@ function App(){
  const addPoi=()=>{const id=Math.max(0,...poiEntries.map(x=>x.id))+1;setPoiEntries(items=>[...items,{id,year:'Year 3',theme:themes[0],title:'New inquiry unit',centralIdea:'',lines:'',status:'Draft',timing:'To be decided'}]);setEditingPoi(id);};
  const loadMissingSamplePoi=()=>{setPoiEntries(current=>{const existingSlots=new Set(current.map(p=>p.year+'||'+p.theme));let nextId=Math.max(0,...current.map(p=>p.id))+1;const missing=samplePoi.filter(p=>!existingSlots.has(p.year+'||'+p.theme)).map(p=>({...p,id:nextId++}));return [...current,...missing]})};
  const missingSamplePoiCount=samplePoi.filter(p=>!poiEntries.some(existing=>existing.year===p.year&&existing.theme===p.theme)).length;
- const loadPoi=(p:PoiEntry)=>{if((plan.centralIdea.trim()||plan.lines.trim())&&!window.confirm('Replace the unit planner central idea and lines with this POI entry? Other fields will be kept.'))return;setPlan(x=>({...x,year:p.year,theme:p.theme,title:p.title,centralIdea:p.centralIdea,lines:p.lines}));setPage('Unit planner');setNotice('POI entry loaded into your unit planner. Review it carefully.');};
+ const loadPoi=(p:PoiEntry)=>{const key=p.year+'||'+p.theme;const saved=(()=>{try{return JSON.parse(localStorage.getItem('pyp-planner-unit-drafts')||'{}') as Record<string,Plan>}catch{return {}}})();const existing=saved[key]||unitDrafts[key];const next=existing?existing:{...blank,title:p.title,year:p.year,theme:p.theme,centralIdea:p.centralIdea,lines:p.lines};setCurrentDraftKey(key);setPlan(next);setPage('Unit planner');setNotice(existing?'Reopened your saved unit draft. Continue where you left off.':'Started a new unit draft from this POI entry. Your other unit drafts remain saved separately.');};
  const generateScenario=()=>{const pool=scenarioBank.filter(x=>x.title!==scenario?.title);setScenario(pool[Math.floor(Math.random()*pool.length)]||scenarioBank[0]);setScenarioAnswer('');setScenarioReflection('');};
  const saveScenario=()=>{if(!scenario||!scenarioAnswer.trim()){setNotice('Write your response before saving.');return;}setScenarioHistory(items=>[{scenario:scenario.type+' — '+scenario.title+'\n'+scenario.context,answer:scenarioAnswer,reflection:scenarioReflection,date:new Date().toLocaleDateString()},...items]);setScenario(null);setNotice('Your scenario response was saved in this browser.');};
 
