@@ -70,3 +70,8 @@ Cloudflare account authorization must be completed by the account owner; it cann
 ### Before sharing with other teachers
 
 This first version is a prototype. It currently saves drafts in the browser on the device being used, and it does not yet have login, shared cloud storage, or live AI mentoring. Add those features before relying on it for important plans or student information.
+
+
+## Live demo
+
+The planner is published with GitHub Pages at https://mstoel.github.io/ib-pyp-planner/ . Drafts are saved locally in the browser; avoid entering student-identifying or confidential information.
