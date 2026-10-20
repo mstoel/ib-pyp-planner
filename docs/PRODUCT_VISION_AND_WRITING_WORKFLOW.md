@@ -271,3 +271,12 @@ The web interface is for creating and improving the unit; the printable document
 ### First practical step
 
 Before building a full template editor, start with a reference template based on the relevant official IB sample planner and make the output print well. Then obtain or upload the user's actual school unit-planning form and add it as a supported school template. This avoids overbuilding before the real form is available.
+
+
+### Template sourcing and school branding
+
+For the first printable planner, use the official IB sample *Planning the inquiry* as a reference structure, after checking the source and version. Do not assume every field in a sample is a current mandatory requirement. Supplement it with current public IB guidance and clearly label school-specific additions.
+
+The printable design should be attractive but practical: restrained colour, strong hierarchy, legible type, consistent tables and ample writing space. Provide a school-branding option where the teacher can add the school's own logo and, optionally, school colours and name. Keep the school identity visually distinct from official IB marks; do not imply IB endorsement or reproduce protected branding outside applicable guidance.
+
+Use the official reference structure as the initial baseline, then support importing or configuring the school's own form. The goal is to avoid spending time inventing a template from scratch while keeping the output genuinely useful for the user's context.
