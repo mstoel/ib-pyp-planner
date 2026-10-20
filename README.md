@@ -10,6 +10,7 @@ A personal, beginner-friendly planning workspace for learning and applying the I
 - End-to-end planning journey: context, unit design, learning sequence, teaching notes, evidence collection and post-teaching reflection
 - Online teaching and review form
 - Combined print preview for browser printing or Save as PDF
+- Guided mentor review with actionable checks for central idea, inquiry pathways, concepts/ATL, learning sequence, assessment, agency and reflection
 - Six transdisciplinary theme options
 - Central idea, lines of inquiry, key concepts, learner profile and ATL planning fields
 - Prompts for prior knowledge, student questions, learning experiences, assessment, agency and reflection
@@ -41,7 +42,7 @@ npm run preview
 - Drafts are stored in the current browser using localStorage; they are not synced between devices.
 - The first MVP does not yet call an AI API. The guide and checklist are starter features.
 - Never add API keys or secrets to frontend code or commit them to Git.
-- Export creates a plain-text planning pack including the unit and learning sequence. The print preview combines the unit, experiences, teaching record and reflection for browser printing or Save as PDF. A polished designed PDF/DOCX export is a later milestone.
+- Export creates a plain-text planning pack including the unit and learning sequence. The print preview combines the unit, experiences, teaching record and reflection for browser printing or Save as PDF. The mentor review currently uses transparent, rule-based prompts from the information entered; it is not connected to a generative AI model yet. A polished designed PDF/DOCX export is a later milestone.
 
 ## Planned next milestones
 
