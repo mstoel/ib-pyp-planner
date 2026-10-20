@@ -71,10 +71,10 @@
  .poiPrintEdition{margin-left:auto;text-align:right;font-size:7pt;line-height:1.5;font-weight:800;letter-spacing:1.3px;color:#0f8f98;border-left:1px solid #d9e8e6;padding-left:5mm}
  .poiPrintRule{height:3px;background:linear-gradient(90deg,#0f8f98 0 35%,#f6b84b 35% 49%,#17364d 49% 100%);margin-top:3mm}
  .poiPrintTable{border-collapse:collapse;table-layout:fixed;width:100%;font-size:8.5pt}
- .poiPrintTable th,.poiPrintTable td{border:1px solid #cbd8df;padding:3.2mm;vertical-align:top;overflow-wrap:anywhere}
- .poiPrintTable thead th{background:#17364d!important;color:#fff!important;font-size:10pt;text-align:left;padding:3mm 3.2mm;letter-spacing:.15px}
+ .poiPrintTable th,.poiPrintTable td{border:1px solid #cbd8df;padding:4mm;vertical-align:top;overflow-wrap:anywhere}
+ .poiPrintTable thead th{background:#17364d!important;color:#fff!important;font-size:10pt;text-align:left;padding:3.4mm 4mm;letter-spacing:.15px}
  .poiPrintTable .themeCol{width:14%}
- .poiPrintTable .themeCell{width:14%;text-align:left;font-size:9pt;line-height:1.3;color:#fff!important;vertical-align:middle;padding:4mm 3mm}
+ .poiPrintTable .themeCell{width:14%;text-align:left;font-size:9pt;line-height:1.35;color:#fff!important;vertical-align:middle;padding:4.5mm 3.5mm}
  .poiPrintTable .themeCell span{display:block}
  .poiPrintTable .themeTone0{background:#236b86!important}
  .poiPrintTable .themeTone1{background:#4b658c!important}
@@ -82,9 +82,9 @@
  .poiPrintTable .themeTone3{background:#287f7c!important}
  .poiPrintTable .themeTone4{background:#b36c37!important}
  .poiPrintTable .themeTone5{background:#5e7c4c!important}
- .poiPrintTable td{background:#fff!important;height:31mm}
- .poiPrintUnitTitle{display:block;font-size:9pt;line-height:1.25;margin-bottom:2mm;color:#17364d;font-weight:800}
- .poiPrintTable td p{font-size:8pt;line-height:1.4;margin:0;color:#405767}
+ .poiPrintTable td{background:#fff!important;height:34mm}
+ .poiPrintUnitTitle{display:block;font-size:9.2pt;line-height:1.3;margin-bottom:2.4mm;color:#17364d;font-weight:800}
+ .poiPrintTable td p{font-size:8.2pt;line-height:1.45;margin:0;color:#405767}
  .poiPrintMissing{color:#8998a1;font-style:italic;font-size:8pt}
  .poiPrintFooter{display:flex;justify-content:space-between;align-items:center;gap:8mm;margin-top:3mm;padding-top:2mm;border-top:1px solid #cbd8df;font-size:7pt;color:#617580}
  .poiPrintFooter span:last-child{text-align:right}
