@@ -58,7 +58,7 @@ Deno.serve(async (req: Request) => {
     extra_context: context,
   };
 
-  const model = Deno.env.get("GEMINI_MODEL") || "gemini-2.5-flash";
+  const model = Deno.env.get("GEMINI_MODEL") || "gemini-3.8-flash";
   const aiResponse = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
     {
