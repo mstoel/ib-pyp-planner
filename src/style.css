@@ -210,3 +210,7 @@
 .mentorFloatingContent .mentorAnswer .sectionHeading{gap:8px;align-items:flex-start}
 .mentorFloatingContent .mentorAnswer .sectionHeading h2{font-size:1rem}
 @media(max-width:600px){.mentorFloatingOverlay{padding:8px 8px 68px 0;align-items:flex-end}.mentorFloatingPanel{width:min(340px,calc(100vw - 20px));max-height:72vh}.mentorFloatingContent{padding:13px}}
+
+
+/* Floating helper: one clear action, compact question box and short advice. */
+.floatingMentorPrompt{padding:12px 13px;border-radius:11px;background:#eef7f4;border:1px solid #dcebe5}.floatingMentorPrompt b{font-size:13px;color:#174d4b}.floatingMentorPrompt p{font-size:11px;line-height:1.55;color:#607570;margin:5px 0 0}.mentorFloatingContent .mentorAnswerText{font-size:12px;line-height:1.6}.mentorFloatingContent .mentorAnswerText h3{font-size:13px;margin:10px 0 4px}.mentorFloatingContent .mentorAnswerText p,.mentorFloatingContent .mentorAnswerText .mentorBullet{margin:5px 0}.mentorFloatingContent .mentorAnswer .sectionHeading h2{font-size:14px}.mentorFloatingContent .mentorAnswer .sectionHeading .eyebrow{font-size:9px}
