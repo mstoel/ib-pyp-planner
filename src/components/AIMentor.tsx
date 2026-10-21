@@ -7,6 +7,7 @@ type Props = {
   plan: Record<string, unknown>;
   lessons: unknown[];
   floating?: boolean;
+  pageName?: string;
   onClose?: () => void;
 };
 
@@ -18,7 +19,7 @@ const tasks: { id: MentorTask; title: string; description: string }[] = [
   { id: 'scenario', title: 'Practise a classroom scenario', description: 'Explore a realistic challenge before seeing a model answer.' },
 ];
 
-export default function AIMentor({ plan, lessons, floating = false, onClose }: Props) {
+export default function AIMentor({ plan, lessons, floating = false, pageName = 'Planning', onClose }: Props) {
   const [task, setTask] = useState<MentorTask>('review');
   const [context, setContext] = useState('');
   const [answer, setAnswer] = useState('');
@@ -40,7 +41,7 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
         return;
       }
       const { data, error: invokeError } = await supabase.functions.invoke('ai-mentor', {
-        body: { task, plan, lessons, context, concise: floating },
+        body: { task, plan, lessons, context, concise: floating, currentPage: pageName },
       });
       if (invokeError) throw invokeError;
       if (data?.error) throw new Error(data.error);
@@ -79,8 +80,8 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
         <div className="mentorFloatingHeader">
           <div>
             <div className="eyebrow">YOUR PLANNING COMPANION</div>
-            <h2>Ask the AI mentor</h2>
-            <p>Get help with the unit you are editing.</p>
+            <h2>Help with this page</h2>
+            <p>Currently viewing: {pageName}. Ask a question about this page or the wider unit.</p>
           </div>
           <button className="mentorFloatingClose" onClick={onClose} aria-label="Close AI help">
             <X size={19} />
@@ -128,8 +129,8 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
 
         {floating && (
           <div className="floatingMentorPrompt">
-            <b>What would you like help with?</b>
-            <p>I’ll check the planning on this page and give you a few practical suggestions.</p>
+            <b>Help with: {pageName}</b>
+            <p>I’ll use this page, your current unit and lesson sequence to give focused advice.</p>
           </div>
         )}
 
