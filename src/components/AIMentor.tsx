@@ -40,7 +40,7 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
         return;
       }
       const { data, error: invokeError } = await supabase.functions.invoke('ai-mentor', {
-        body: { task, plan, lessons, context },
+        body: { task, plan, lessons, context, concise: floating },
       });
       if (invokeError) throw invokeError;
       if (data?.error) throw new Error(data.error);
@@ -76,11 +76,11 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
     </div>}
     {!floating && <div className="note"><BookOpen/><div><b>Keep your professional judgement in charge</b><p>This is a PYP-informed learning aid, not an official IB service. Advice depends on the information you provide and your school’s context. Do not include identifiable student information or sensitive records.</p></div></div>}
     <section className="formSection mentorFormSection">
-      <h2><span><Sparkles size={16}/></span> What would you like help with?</h2>
-      <div className="mentorTaskGrid">{tasks.map(item => <button type="button" key={item.id} className={'mentorTask '+(task===item.id?'selected':'')} onClick={() => setTask(item.id)}><b>{item.title}</b><small>{item.description}</small></button>)}</div>
-      <label className="field">Extra context (optional)<textarea rows={4} value={context} onChange={e => setContext(e.target.value)} placeholder="For example: I am new to the PYP, this is a Year 3 unit, and I am unsure whether the lines of inquiry are distinct. Avoid student names or identifying details."/></label>
+      {!floating && <><h2><span><Sparkles size={16}/></span> What would you like help with?</h2><div className="mentorTaskGrid">{tasks.map(item => <button type="button" key={item.id} className={'mentorTask '+(task===item.id?'selected':'')} onClick={() => setTask(item.id)}><b>{item.title}</b><small>{item.description}</small></button>)}</>}
+      {floating && <div className="floatingMentorPrompt"><b>What would you like help with?</b><p>I’ll look at this page and offer a few practical suggestions.</p></div>}
+      <label className="field">{floating ? 'Your question (optional)' : 'Extra context (optional)'}<textarea rows={floating ? 3 : 4} value={context} onChange={e => setContext(e.target.value)} placeholder={floating ? 'E.g. How can I improve the central idea?' : 'For example: I am new to the PYP, this is a Year 3 unit, and I am unsure whether the lines of inquiry are distinct. Avoid student names or identifying details.'}/></label>
       {!floating && <div className="mentorContext"><Lightbulb size={17}/><span><b>Current unit:</b> {String(plan.title || 'Untitled unit')} · {String(plan.year || 'Year group not set')} · {String(plan.theme || 'Theme not selected')}<br/><small>The mentor will receive the current unit fields and lesson sequence. Save your draft before leaving if you want to keep your latest edits.</small></span></div>}
-      <button className="btn primary big" disabled={busy} onClick={askMentor}>{busy?<><LoaderCircle size={16} className="spin"/> Thinking…</>:<><Sparkles size={16}/> Ask the AI mentor</>}</button>
+      <button className="btn primary big" disabled={busy} onClick={askMentor}>{busy?<><LoaderCircle size={16} className="spin"/> Thinking…</>:<><Sparkles size={16}/> {floating ? 'Help with this page' : 'Ask the AI mentor'}</>}</button>
       {error && <div className="mentorError" role="alert"><b>Could not get advice</b><p>{error}</p></div>}
     </section>
     {answer && <section className="formSection mentorAnswer"><div className="sectionHeading"><div><div className="eyebrow">MENTOR RESPONSE</div><h2>Your planning conversation</h2></div><button className="btn light" onClick={() => navigator.clipboard?.writeText(answer)}>Copy response</button></div><div className="mentorAnswerText">{answer.split('\n').map(renderLine)}</div><p className="muted">Review suggestions against your learners, school guidance and current IB resources before applying them.</p></section>}
