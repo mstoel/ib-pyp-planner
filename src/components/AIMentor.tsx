@@ -73,9 +73,8 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
       <div className="eyebrow">YOUR SECURE PLANNING COMPANION</div>
       <h1>AI PYP mentor</h1>
       <p>Think alongside a practical mentor. It uses your current unit and lesson sequence, asks useful questions and offers suggestions for you to review—not instructions you must follow.</p>
-    </div>
     </div>}
-    {!floating && <div className="note"><BookOpen/><div><b>Keep your professional judgement in charge</b><p>This is a PYP-informed learning aid, not an official IB service. Advice depends on the information you provide and your school’s context. Do not include identifiable student information or sensitive records.</p></div></div>
+    {!floating && <div className="note"><BookOpen/><div><b>Keep your professional judgement in charge</b><p>This is a PYP-informed learning aid, not an official IB service. Advice depends on the information you provide and your school’s context. Do not include identifiable student information or sensitive records.</p></div></div>}
     <section className="formSection mentorFormSection">
       <h2><span><Sparkles size={16}/></span> What would you like help with?</h2>
       <div className="mentorTaskGrid">{tasks.map(item => <button type="button" key={item.id} className={'mentorTask '+(task===item.id?'selected':'')} onClick={() => setTask(item.id)}><b>{item.title}</b><small>{item.description}</small></button>)}</div>
@@ -84,6 +83,6 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
       <button className="btn primary big" disabled={busy} onClick={askMentor}>{busy?<><LoaderCircle size={16} className="spin"/> Thinking…</>:<><Sparkles size={16}/> Ask the AI mentor</>}</button>
       {error && <div className="mentorError" role="alert"><b>Could not get advice</b><p>{error}</p></div>}
     </section>
-    {answer && <section className="formSection mentorAnswer"><div className="sectionHeading"><div><div className="eyebrow">MENTOR RESPONSE</div><h2>Your planning conversation</h2></div><button className="btn light" onClick={() => navigator.clipboard?.writeText(answer)}>Copy response</button></div><div className="mentorAnswerText">{answer.split('\n').map((line, i) => line.trim() ? <p key={i}>{line}</p> : <div key={i} className="answerGap"/>)}</div><p className="muted">Review suggestions against your learners, school guidance and current IB resources before applying them.</p></section>}
+    {answer && <section className="formSection mentorAnswer"><div className="sectionHeading"><div><div className="eyebrow">MENTOR RESPONSE</div><h2>Your planning conversation</h2></div><button className="btn light" onClick={() => navigator.clipboard?.writeText(answer)}>Copy response</button></div><div className="mentorAnswerText">{answer.split('\n').map(renderLine)}</div><p className="muted">Review suggestions against your learners, school guidance and current IB resources before applying them.</p></section>}
   </div>;
 }
