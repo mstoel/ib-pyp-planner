@@ -195,3 +195,18 @@
 .mentorAnswerText .mentorBullet:before{content:"•";position:absolute;left:4px;color:#07818c;font-weight:800}
 .mentorAnswerText .answerGap{height:5px}
 @media(max-width:600px){.floatingMentorButton{right:14px;bottom:14px;padding:12px 15px}.mentorFloatingOverlay{padding:8px;align-items:flex-end}.mentorFloatingPanel{max-height:90vh;border-radius:17px}.mentorFloatingContent{padding:16px}.mentorFloatingContent .mentorTaskGrid{grid-template-columns:1fr}.mentorFloatingContent .mentorTask small{display:block}}
+
+
+/* Keep the AI helper tucked against the right edge so the unit planner stays visible. */
+.mentorFloatingOverlay{background:transparent;align-items:flex-end;justify-content:flex-end;padding:12px 16px 78px 0;pointer-events:none}
+.mentorFloatingPanel{pointer-events:auto;width:min(360px,calc(100vw - 28px));max-height:min(76vh,700px);border-radius:16px;box-shadow:0 8px 32px rgba(20,45,45,.2)}
+.mentorFloatingContent{padding:16px;gap:12px}
+.mentorFloatingHeader h2{font-size:1.15rem}
+.mentorFloatingContent .mentorTaskGrid{grid-template-columns:1fr;gap:6px}
+.mentorFloatingContent .mentorTask{padding:9px 11px}
+.mentorFloatingContent .mentorTask small{font-size:.8rem;line-height:1.35}
+.mentorFloatingContent .field textarea{min-height:66px;max-height:120px}
+.mentorFloatingContent .mentorAnswer{padding:12px}
+.mentorFloatingContent .mentorAnswer .sectionHeading{gap:8px;align-items:flex-start}
+.mentorFloatingContent .mentorAnswer .sectionHeading h2{font-size:1rem}
+@media(max-width:600px){.mentorFloatingOverlay{padding:8px 8px 68px 0;align-items:flex-end}.mentorFloatingPanel{width:min(340px,calc(100vw - 20px));max-height:72vh}.mentorFloatingContent{padding:13px}}
