@@ -83,6 +83,6 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
       <button className="btn primary big" disabled={busy} onClick={askMentor}>{busy?<><LoaderCircle size={16} className="spin"/> Thinking…</>:<><Sparkles size={16}/> {floating ? 'Help with this page' : 'Ask the AI mentor'}</>}</button>
       {error && <div className="mentorError" role="alert"><b>Could not get advice</b><p>{error}</p></div>}
     </section>
-    {answer && <section className="formSection mentorAnswer"><div className="sectionHeading"><div><div className="eyebrow">MENTOR RESPONSE</div><h2>Your planning conversation</h2></div><button className="btn light" onClick={() => navigator.clipboard?.writeText(answer)}>Copy response</button></div><div className="mentorAnswerText">{answer.split('\n').map(renderLine)}</div><p className="muted">Review suggestions against your learners, school guidance and current IB resources before applying them.</p></section>}
+    {answer && <section className="formSection mentorAnswer"><div className="sectionHeading"><div><div className="eyebrow">MENTOR RESPONSE</div><h2>{floating ? 'A few suggestions' : 'Your planning conversation'}</h2></div>{!floating && <button className="btn light" onClick={() => navigator.clipboard?.writeText(answer)}>Copy response</button>}</div><div className="mentorAnswerText">{answer.split('\n').map(renderLine)}</div>{!floating && <p className="muted">Review suggestions against your learners, school guidance and current IB resources before applying them.</p>}</section>}
   </div>;
 }
