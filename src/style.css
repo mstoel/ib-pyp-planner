@@ -156,3 +156,17 @@
 @media(max-width:760px){.dayWelcome,.dayCoachNote{padding:16px;gap:11px}.dayModuleTrigger{padding:15px 13px;gap:10px}.dayModuleNum{flex-basis:34px;height:34px}.dayModuleHeading strong{font-size:14px}.dayModuleBody{padding:0 13px 16px}.dayColumns,.dayAssessmentGrid{grid-template-columns:1fr}.dayAssessmentGuide{padding:17px}.dayQuickNav{padding:14px}.dayPracticeActions{flex-direction:column}.dayPracticeActions .btn{justify-content:center}}
 
 .sideGroupLabel{margin:24px 16px 8px;font-size:10px;letter-spacing:1.8px;font-weight:800;color:#89958c}.sideGroupLabel:first-of-type{margin-top:18px}.learnGroupLabel{margin-top:26px;border-top:1px solid #edf0e9;padding-top:22px}.guideQuizHeading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.guideQuizHeading h4{flex:1}.guideQuizHeading>span{flex:none;padding:5px 9px;border-radius:8px;background:#eaf0e7;color:#52715c;font-size:11px;font-weight:800}.guideQuizProgress{height:4px;background:#e9eeea;border-radius:9px;overflow:hidden;margin:12px 0 16px}.guideQuizProgress span{display:block;height:100%;background:#0f8f98;transition:width .2s}.guideQuizControls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:18px}.guideQuizControls>span{font-size:11px;color:#74818a}.guideQuizControls button:disabled{opacity:.45;cursor:not-allowed}@media(max-width:760px){.sideGroupLabel{margin-left:10px}.guideQuizControls{flex-wrap:wrap}}
+
+
+/* AI mentor */
+.mentorTaskGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0 22px}
+.mentorTask{display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;padding:16px;border:1px solid #dfe7e3;border-radius:13px;background:#fff;color:#193b46;cursor:pointer;transition:border-color .15s,background .15s}
+.mentorTask b{font-size:14px}.mentorTask small{font-size:12px;line-height:1.5;color:#718087}
+.mentorTask:hover,.mentorTask.selected{border-color:#0f8f98;background:#eff9f7}
+.mentorContext{display:flex;gap:10px;align-items:flex-start;padding:14px;margin:14px 0 20px;border-radius:12px;background:#f1f6ee;color:#3e6549;font-size:13px;line-height:1.55}
+.mentorContext>svg{flex:none;margin-top:2px}.mentorContext small{color:#6d7d70}
+.mentorError{margin-top:18px;padding:14px;border-radius:12px;border:1px solid #efc7c0;background:#fff5f2;color:#963d32}.mentorError p{margin:5px 0 0;font-size:13px}
+.mentorAnswerText{font-size:14px;line-height:1.8;color:#29434b;overflow-wrap:anywhere}.mentorAnswerText p{white-space:pre-wrap;margin:0 0 10px}.answerGap{height:5px}
+.mentorAnswer .sectionHeading{align-items:center}
+.spin{animation:mentorSpin 1.1s linear infinite}@keyframes mentorSpin{to{transform:rotate(360deg)}}
+@media(max-width:650px){.mentorTaskGrid{grid-template-columns:1fr}.mentorAnswer .sectionHeading{align-items:flex-start;flex-direction:column}}
