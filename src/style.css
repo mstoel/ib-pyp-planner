@@ -170,3 +170,28 @@
 .mentorAnswer .sectionHeading{align-items:center}
 .spin{animation:mentorSpin 1.1s linear infinite}@keyframes mentorSpin{to{transform:rotate(360deg)}}
 @media(max-width:650px){.mentorTaskGrid{grid-template-columns:1fr}.mentorAnswer .sectionHeading{align-items:flex-start;flex-direction:column}}
+
+
+/* Floating AI planning companion */
+.floatingMentorButton{position:fixed;right:24px;bottom:24px;z-index:1200;display:flex;align-items:center;gap:9px;border:0;border-radius:999px;padding:13px 18px;background:#087f8c;color:#fff;font-weight:700;box-shadow:0 8px 28px rgba(16,74,80,.24);cursor:pointer;transition:transform .18s,box-shadow .18s}
+.floatingMentorButton:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(16,74,80,.3)}
+.mentorFloatingOverlay{position:fixed;inset:0;z-index:1300;background:rgba(20,35,37,.32);display:flex;align-items:flex-end;justify-content:flex-end;padding:24px}
+.mentorFloatingPanel{width:min(540px,100%);max-height:min(84vh,850px);overflow:auto;background:#f7faf8;border:1px solid #dce9e4;border-radius:20px;box-shadow:0 20px 70px rgba(20,45,45,.24)}
+.mentorFloatingContent{padding:22px;display:flex;flex-direction:column;gap:16px}
+.mentorFloatingHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.mentorFloatingHeader h2{margin:4px 0 6px;font-size:1.35rem}
+.mentorFloatingHeader p{margin:0;color:#61716e;font-size:.92rem}
+.mentorFloatingClose{display:grid;place-items:center;border:0;border-radius:10px;background:#e7f2ef;color:#345d59;width:38px;height:38px;cursor:pointer;flex-shrink:0}
+.mentorFloatingContent .formSection{padding:0;margin:0;border:0;box-shadow:none;background:transparent}
+.mentorFloatingContent .mentorTaskGrid{grid-template-columns:1fr 1fr;gap:8px}
+.mentorFloatingContent .mentorTask{padding:12px;text-align:left}
+.mentorFloatingContent .mentorTask small{line-height:1.4}
+.mentorFloatingContent .field textarea{min-height:84px}
+.mentorFloatingContent .mentorAnswer{padding:16px;background:#fff;border:1px solid #e0e9e5;border-radius:14px}
+.mentorAnswerText{line-height:1.7;color:#293c3b}
+.mentorAnswerText h3{font-size:1.02rem;margin:18px 0 7px;color:#155e63}
+.mentorAnswerText p{margin:7px 0}
+.mentorAnswerText .mentorBullet{position:relative;padding-left:20px;margin:7px 0}
+.mentorAnswerText .mentorBullet:before{content:"•";position:absolute;left:4px;color:#07818c;font-weight:800}
+.mentorAnswerText .answerGap{height:5px}
+@media(max-width:600px){.floatingMentorButton{right:14px;bottom:14px;padding:12px 15px}.mentorFloatingOverlay{padding:8px;align-items:flex-end}.mentorFloatingPanel{max-height:90vh;border-radius:17px}.mentorFloatingContent{padding:16px}.mentorFloatingContent .mentorTaskGrid{grid-template-columns:1fr}.mentorFloatingContent .mentorTask small{display:block}}
