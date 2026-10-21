@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import AuthPanel from './components/AuthPanel';
+import { supabase } from './lib/supabase';
 import { BookOpen, CheckCircle2, ChevronRight, Compass, Download, GraduationCap, Lightbulb, Plus, Save, Sparkles, Sprout, Target, ArrowUpRight, Map, Shuffle, Trash2 } from 'lucide-react';
 
 type Lesson = { id:number; title:string; inquiry:string; experience:string; evidence:string; choice:string };
@@ -129,6 +130,7 @@ function OwlMark(){return <svg viewBox="0 0 100 76" aria-label="Two Wise Old Owl
 function App(){
  const [plan,setPlan]=useState<Plan>(()=>{try{return {...blank,...JSON.parse(localStorage.getItem('pyp-planner-draft')||'{}')}}catch{return blank}});
  const [currentDraftKey,setCurrentDraftKey]=useState('');
+ const [cloudDraftId,setCloudDraftId]=useState<string|null>(null);
  const [unitDrafts,setUnitDrafts]=useState<Record<string,Plan>>(()=>{try{return JSON.parse(localStorage.getItem('pyp-planner-unit-drafts')||'{}')}catch{return {}}});
  const [poiEntries,setPoiEntries]=useState<PoiEntry[]>(()=>{try{return JSON.parse(localStorage.getItem('pyp-planner-poi')||'null')||samplePoi}catch{return samplePoi}});
  const [poiYear,setPoiYear]=useState('All year groups'); const [poiTheme,setPoiTheme]=useState('All themes'); const [editingPoi,setEditingPoi]=useState<number|null>(null);
@@ -191,7 +193,16 @@ function App(){
  };
  const started=useMemo(()=>[plan.theme,plan.centralIdea,plan.lines,plan.concepts,plan.atl,plan.assessment].filter(v=>v.trim()).length,[plan]);
  const exportPlan=()=>{const text=['TWOWISEOLDOWLS · PERSONAL PYP PLANNING WORKBOOK',plan.title,'',`Year group: ${plan.year}`,`Theme: ${plan.theme}`,`Duration: ${plan.duration}`,'',...sections.map(s=>s.title.toUpperCase()+'\n'+(plan[s.key]||'Not yet completed')),'PLANNING CONTEXT\n'+(plan.context||'Not yet completed'),'LEARNING GOALS\n'+(plan.learningGoals||'Not yet completed'),'SUCCESS CRITERIA\n'+(plan.successCriteria||'Not yet completed'),'RESOURCES AND PREPARATION\n'+(plan.resources||'Not yet completed'),'TEACHING NOTES\n'+(plan.teachingNotes||'Not yet completed'),'EVIDENCE COLLECTED\n'+(plan.evidenceCollected||'Not yet completed'),'STUDENT VOICE\n'+(plan.studentVoice||'Not yet completed'),'NEXT STEPS\n'+(plan.nextSteps||'Not yet completed'),'LESSON SEQUENCE',...lessons.flatMap((l,i)=>['Experience '+(i+1)+': '+l.title,'Inquiry question: '+l.inquiry,'Learning experience: '+l.experience,'Evidence: '+l.evidence,'Student voice and choice: '+l.choice,''])].join('\n\n');const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='pyp-unit-plan.txt';a.click();URL.revokeObjectURL(url);setNotice('Draft exported.');};
- const save=()=>{localStorage.setItem('pyp-planner-draft',JSON.stringify(plan));localStorage.setItem('pyp-planner-lessons',JSON.stringify(lessons));setNotice('Draft saved in this browser.');};
+ const save=async()=>{
+  localStorage.setItem('pyp-planner-draft',JSON.stringify(plan));localStorage.setItem('pyp-planner-lessons',JSON.stringify(lessons));
+  if(!supabase){setNotice('Draft saved in this browser. Cloud saving is not configured in this build.');return;}
+  const {data:{user},error:userError}=await supabase.auth.getUser();
+  if(userError||!user){setNotice('Draft saved in this browser. Sign in to save a secure cloud copy.');return;}
+  const payload={...(cloudDraftId?{id:cloudDraftId}:{}),owner_id:user.id,poi_entry_id:currentDraftKey||null,title:plan.title||'Untitled unit',year_group:plan.year||null,transdisciplinary_theme:plan.theme||null,status:'in_progress',plan:plan as unknown as Record<string,unknown>,lessons:lessons as unknown as Record<string,unknown>[]};
+  const {data,error}=await supabase.from('unit_drafts').upsert(payload).select('id').single();
+  if(error){setNotice('Saved locally, but cloud save failed: '+error.message);return;}
+  setCloudDraftId(data.id);setNotice('Draft saved locally and securely to your Supabase account.');
+ };
  const updateLesson=(id:number,key:keyof Lesson,value:string)=>setLessons(items=>items.map(item=>item.id===id?{...item,[key]:value}:item));
  const addLesson=()=>setLessons(items=>[...items,{id:Math.max(0,...items.map(x=>x.id))+1,title:'New learning experience',inquiry:'',experience:'',evidence:'',choice:''}]);
  const removeLesson=(id:number)=>setLessons(items=>items.filter(item=>item.id!==id));
