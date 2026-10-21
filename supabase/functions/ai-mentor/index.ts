@@ -12,9 +12,9 @@ Deno.serve(async (req: Request) => {
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
-  const openAiKey = Deno.env.get("OPENAI_API_KEY");
-  if (!supabaseUrl || !supabaseAnonKey || !openAiKey) {
-    return json({ error: "The AI mentor is not configured yet. Add the required Supabase and OpenAI function secrets." }, 503);
+  const geminiKey = Deno.env.get("GEMINI_API_KEY");
+  if (!supabaseUrl || !supabaseAnonKey || !geminiKey) {
+    return json({ error: "The AI mentor is not configured yet. Check the Supabase function secrets." }, 503);
   }
 
   const authHeader = req.headers.get("Authorization");
@@ -45,7 +45,7 @@ Deno.serve(async (req: Request) => {
 
   const taskPrompt: Record<string, string> = {
     review: "Review this draft unit plan. Identify strengths, the 3 most important gaps or alignment issues, questions for the teacher, and concrete next steps. Do not rewrite everything.",
-    improve: "Suggest targeted improvements to the draft. For each, quote or identify the field, explain the issue, give a proposed alternative, and explain why it may help. Preserve the teacher's intent.",
+    improve: "Suggest targeted improvements to the draft. For each, identify the field, explain the issue, give a proposed alternative, and explain why it may help. Preserve the teacher's intent.",
     next_steps: "Based on this unit and the current teaching context, recommend a manageable next planning step and 3 questions to consider. Avoid assuming the unit is fully planned.",
     reflect: "Help the teacher reflect on the teaching evidence provided. Separate observations from interpretations, identify possible misconceptions or alternate explanations, and suggest responsive next steps.",
     scenario: "Create one realistic classroom scenario connected to this unit. Ask the teacher what they would do first, what evidence they would gather, and how they would respond. Do not give the model answer until asked.",
@@ -58,35 +58,45 @@ Deno.serve(async (req: Request) => {
     extra_context: context,
   };
 
-  const aiResponse = await fetch("https://api.openai.com/v1/responses", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${openAiKey}`,
-      "Content-Type": "application/json",
+  const model = Deno.env.get("GEMINI_MODEL") || "gemini-2.5-flash";
+  const aiResponse = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+    {
+      method: "POST",
+      headers: {
+        "x-goog-api-key": geminiKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: instructions }] },
+        contents: [{
+          role: "user",
+          parts: [{ text: `${taskPrompt[task]}\n\nTeacher's current planning data (JSON):\n${JSON.stringify(input)}` }],
+        }],
+        generationConfig: {
+          maxOutputTokens: 1400,
+          temperature: 0.4,
+        },
+      }),
     },
-    body: JSON.stringify({
-      model: Deno.env.get("OPENAI_MODEL") || "gpt-5-mini",
-      instructions,
-      input: `${taskPrompt[task]}\n\nTeacher's current planning data (JSON):\n${JSON.stringify(input)}`,
-      max_output_tokens: 1400,
-    }),
-  });
+  );
 
   const result = await aiResponse.json().catch(() => ({}));
   if (!aiResponse.ok) {
-    console.error("OpenAI request failed", aiResponse.status, result?.error?.code ?? "unknown");
-    return json({ error: "The AI mentor could not complete this request. Please try again later." }, 502);
+    console.error("Gemini request failed", aiResponse.status, result?.error?.status ?? "unknown");
+    if (aiResponse.status === 429) {
+      return json({ error: "Gemini's current usage limit has been reached. Please wait a little and try again." }, 429);
+    }
+    return json({ error: "The AI mentor could not complete this request. Check the Gemini API key and model settings, then try again." }, 502);
   }
 
-  const text = (result.output ?? [])
-    .flatMap((item: { content?: { type?: string; text?: string }[] }) => item.content ?? [])
-    .filter((item: { type?: string }) => item.type === "output_text")
-    .map((item: { text?: string }) => item.text ?? "")
+  const text = (result.candidates?.[0]?.content?.parts ?? [])
+    .map((part: { text?: string }) => part.text ?? "")
     .join("\n")
     .trim();
 
   if (!text) return json({ error: "The AI mentor returned an empty response. Please try again." }, 502);
-  return json({ text, task, model: result.model ?? Deno.env.get("OPENAI_MODEL") ?? "gpt-5-mini" });
+  return json({ text, task, model });
 });
 
 function json(data: unknown, status = 200) {
