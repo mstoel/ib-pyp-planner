@@ -34,8 +34,8 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
     }
     setBusy(true);
     try {
-      const { data: { user }, error: authError } = await supabase.auth.getUser();
-      if (authError || !user) {
+      const { data: sessionData, error: authError } = await supabase.auth.getUser();
+      if (authError || !sessionData.user) {
         setError('Please sign in again to use the AI mentor.');
         return;
       }
@@ -55,34 +55,138 @@ export default function AIMentor({ plan, lessons, floating = false, onClose }: P
 
   const renderLine = (line: string, index: number) => {
     const trimmed = line.trim();
-    if (!trimmed) return <div key={index} className="answerGap" />;
+    if (!trimmed) return null;
     const isHeading = /^#{1,3}\s/.test(trimmed);
-    const isBullet = /^[-*]\s/.test(trimmed);
-    const content = trimmed.replace(/^#{1,3}\s+/, '').replace(/^[-*]\s+/, '').replace(/^\d+\.\s+/, '');
-    const parts = content.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
-      part.startsWith('**') && part.endsWith('**') ? <strong key={i}>{part.slice(2, -2)}</strong> : part
-    );
+    const isBullet = /^[-*]\s/.test(trimmed) || /^\d+\.\s/.test(trimmed);
+    const content = trimmed
+      .replace(/^#{1,3}\s+/, '')
+      .replace(/^[-*]\s+/, '')
+      .replace(/^\d+\.\s+/, '');
+    const parts = content.split(/(\*\*[^*]+\*\*)/g).map((part, partIndex) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={partIndex}>{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
     if (isHeading) return <h3 key={index}>{parts}</h3>;
-    if (isBullet || /^\d+\.\s/.test(trimmed)) return <div className="mentorBullet" key={index}>{parts}</div>;
+    if (isBullet) return <div className="mentorBullet" key={index}>{parts}</div>;
     return <p key={index}>{parts}</p>;
   };
 
-  return <div className={floating ? 'mentorFloatingContent' : 'page narrow'}>
-    {floating && <div className="mentorFloatingHeader"><div><div className="eyebrow">YOUR PLANNING COMPANION</div><h2>Ask the AI mentor</h2><p>Get help with the unit you are editing.</p></div><button className="mentorFloatingClose" onClick={onClose} aria-label="Close AI help"><X size={19}/></button></div>}
-    {!floating && <div className="intro">
-      <div className="eyebrow">YOUR SECURE PLANNING COMPANION</div>
-      <h1>AI PYP mentor</h1>
-      <p>Think alongside a practical mentor. It uses your current unit and lesson sequence, asks useful questions and offers suggestions for you to review—not instructions you must follow.</p>
-    </div>}
-    {!floating && <div className="note"><BookOpen/><div><b>Keep your professional judgement in charge</b><p>This is a PYP-informed learning aid, not an official IB service. Advice depends on the information you provide and your school’s context. Do not include identifiable student information or sensitive records.</p></div></div>}
-    <section className="formSection mentorFormSection">
-      {!floating && <><h2><span><Sparkles size={16}/></span> What would you like help with?</h2><div className="mentorTaskGrid">{tasks.map(item => <button type="button" key={item.id} className={'mentorTask '+(task===item.id?'selected':'')} onClick={() => setTask(item.id)}><b>{item.title}</b><small>{item.description}</small></button>)}</>}
-      {floating && <div className="floatingMentorPrompt"><b>What would you like help with?</b><p>I’ll look at this page and offer a few practical suggestions.</p></div>}
-      <label className="field">{floating ? 'Your question (optional)' : 'Extra context (optional)'}<textarea rows={floating ? 3 : 4} value={context} onChange={e => setContext(e.target.value)} placeholder={floating ? 'E.g. How can I improve the central idea?' : 'For example: I am new to the PYP, this is a Year 3 unit, and I am unsure whether the lines of inquiry are distinct. Avoid student names or identifying details.'}/></label>
-      {!floating && <div className="mentorContext"><Lightbulb size={17}/><span><b>Current unit:</b> {String(plan.title || 'Untitled unit')} · {String(plan.year || 'Year group not set')} · {String(plan.theme || 'Theme not selected')}<br/><small>The mentor will receive the current unit fields and lesson sequence. Save your draft before leaving if you want to keep your latest edits.</small></span></div>}
-      <button className="btn primary big" disabled={busy} onClick={askMentor}>{busy?<><LoaderCircle size={16} className="spin"/> Thinking…</>:<><Sparkles size={16}/> {floating ? 'Help with this page' : 'Ask the AI mentor'}</>}</button>
-      {error && <div className="mentorError" role="alert"><b>Could not get advice</b><p>{error}</p></div>}
-    </section>
-    {answer && <section className="formSection mentorAnswer"><div className="sectionHeading"><div><div className="eyebrow">MENTOR RESPONSE</div><h2>{floating ? 'A few suggestions' : 'Your planning conversation'}</h2></div>{!floating && <button className="btn light" onClick={() => navigator.clipboard?.writeText(answer)}>Copy response</button>}</div><div className="mentorAnswerText">{answer.split('\n').map(renderLine)}</div>{!floating && <p className="muted">Review suggestions against your learners, school guidance and current IB resources before applying them.</p>}</section>}
-  </div>;
+  return (
+    <div className={floating ? 'mentorFloatingContent' : 'page narrow'}>
+      {floating && (
+        <div className="mentorFloatingHeader">
+          <div>
+            <div className="eyebrow">YOUR PLANNING COMPANION</div>
+            <h2>Ask the AI mentor</h2>
+            <p>Get help with the unit you are editing.</p>
+          </div>
+          <button className="mentorFloatingClose" onClick={onClose} aria-label="Close AI help">
+            <X size={19} />
+          </button>
+        </div>
+      )}
+
+      {!floating && (
+        <div className="intro">
+          <div className="eyebrow">YOUR SECURE PLANNING COMPANION</div>
+          <h1>AI PYP mentor</h1>
+          <p>Think alongside a practical mentor. It uses your current unit and lesson sequence, asks useful questions and offers suggestions for you to review—not instructions you must follow.</p>
+        </div>
+      )}
+
+      {!floating && (
+        <div className="note">
+          <BookOpen />
+          <div>
+            <b>Keep your professional judgement in charge</b>
+            <p>This is a PYP-informed learning aid, not an official IB service. Advice depends on the information you provide and your school’s context. Do not include identifiable student information or sensitive records.</p>
+          </div>
+        </div>
+      )}
+
+      <section className="formSection mentorFormSection">
+        {!floating && (
+          <>
+            <h2><span><Sparkles size={16} /></span> What would you like help with?</h2>
+            <div className="mentorTaskGrid">
+              {tasks.map((item) => (
+                <button
+                  type="button"
+                  key={item.id}
+                  className={`mentorTask ${task === item.id ? 'selected' : ''}`}
+                  onClick={() => setTask(item.id)}
+                >
+                  <b>{item.title}</b>
+                  <small>{item.description}</small>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
+        {floating && (
+          <div className="floatingMentorPrompt">
+            <b>What would you like help with?</b>
+            <p>I’ll check the planning on this page and give you a few practical suggestions.</p>
+          </div>
+        )}
+
+        <label className="field">
+          {floating ? 'Your question (optional)' : 'Extra context (optional)'}
+          <textarea
+            rows={floating ? 3 : 4}
+            value={context}
+            onChange={(event) => setContext(event.target.value)}
+            placeholder={floating
+              ? 'E.g. How can I improve the central idea?'
+              : 'For example: I am new to the PYP, this is a Year 3 unit, and I am unsure whether the lines of inquiry are distinct. Avoid student names or identifying details.'}
+          />
+        </label>
+
+        {!floating && (
+          <div className="mentorContext">
+            <Lightbulb size={17} />
+            <span>
+              <b>Current unit:</b> {String(plan.title || 'Untitled unit')} · {String(plan.year || 'Year group not set')} · {String(plan.theme || 'Theme not selected')}
+              <br />
+              <small>The mentor will receive the current unit fields and lesson sequence. Save your draft before leaving if you want to keep your latest edits.</small>
+            </span>
+          </div>
+        )}
+
+        <button className="btn primary big" disabled={busy} onClick={askMentor}>
+          {busy
+            ? <><LoaderCircle size={16} className="spin" /> Thinking…</>
+            : <><Sparkles size={16} /> {floating ? 'Help with this page' : 'Ask the AI mentor'}</>}
+        </button>
+
+        {error && (
+          <div className="mentorError" role="alert">
+            <b>Could not get advice</b>
+            <p>{error}</p>
+          </div>
+        )}
+      </section>
+
+      {answer && (
+        <section className="formSection mentorAnswer">
+          <div className="sectionHeading">
+            <div>
+              <div className="eyebrow">MENTOR RESPONSE</div>
+              <h2>{floating ? 'A few suggestions' : 'Your planning conversation'}</h2>
+            </div>
+            {!floating && (
+              <button className="btn light" onClick={() => navigator.clipboard?.writeText(answer)}>
+                Copy response
+              </button>
+            )}
+          </div>
+          <div className="mentorAnswerText">{answer.split('\n').map(renderLine)}</div>
+          {!floating && <p className="muted">Review suggestions against your learners, school guidance and current IB resources before applying them.</p>}
+        </section>
+      )}
+    </div>
+  );
 }
