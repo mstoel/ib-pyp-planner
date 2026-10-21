@@ -203,7 +203,7 @@ function App(){
   const payload={...(cloudDraftId?{id:cloudDraftId}:{}),owner_id:user.id,poi_entry_id:currentDraftKey||null,title:plan.title||'Untitled unit',year_group:plan.year||null,transdisciplinary_theme:plan.theme||null,status:'in_progress',plan:plan as unknown as Record<string,unknown>,lessons:lessons as unknown as Record<string,unknown>[]};
   const {data,error}=await supabase.from('unit_drafts').upsert(payload).select('id').single();
   if(error){setNotice('Saved locally, but cloud save failed: '+error.message);return;}
-  setCloudDraftId(data.id);setNotice('Draft saved locally and securely to your Supabase account.');
+  setCloudDraftId(data.id);setNotice('Saved and stored securely.');
  };
  const updateLesson=(id:number,key:keyof Lesson,value:string)=>setLessons(items=>items.map(item=>item.id===id?{...item,[key]:value}:item));
  const addLesson=()=>setLessons(items=>[...items,{id:Math.max(0,...items.map(x=>x.id))+1,title:'New learning experience',inquiry:'',experience:'',evidence:'',choice:''}]);
