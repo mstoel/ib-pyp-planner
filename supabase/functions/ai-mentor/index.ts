@@ -61,27 +61,34 @@ Deno.serve(async (req: Request) => {
   };
 
   const model = Deno.env.get("GEMINI_MODEL") || "gemini-3.8-flash";
-  const aiResponse = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
-    {
-      method: "POST",
-      headers: {
-        "x-goog-api-key": geminiKey,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: instructions }] },
-        contents: [{
-          role: "user",
-          parts: [{ text: `${taskPrompt[task]}\n\nTeacher's current planning data (JSON):\n${JSON.stringify(input)}` }],
-        }],
-        generationConfig: {
-          maxOutputTokens: 1400,
-          temperature: 0.4,
+  let aiResponse: Response;
+  try {
+    aiResponse = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+      {
+        method: "POST",
+        headers: {
+          "x-goog-api-key": geminiKey,
+          "Content-Type": "application/json",
         },
-      }),
-    },
-  );
+        body: JSON.stringify({
+          systemInstruction: { parts: [{ text: instructions }] },
+          contents: [{
+            role: "user",
+            parts: [{ text: `${taskPrompt[task]}\n\nTeacher's current planning data (JSON):\n${JSON.stringify(input)}` }],
+          }],
+          generationConfig: {
+            maxOutputTokens: body.concise ? 500 : 1400,
+            temperature: 0.4,
+          },
+        }),
+        signal: AbortSignal.timeout(25000),
+      },
+    );
+  } catch (error) {
+    console.error("Gemini request failed before a response", error instanceof Error ? error.name : "unknown");
+    return json({ error: "The AI mentor timed out while contacting Gemini. Please try again. If this keeps happening, check the deployed function's Gemini model and API key." }, 504);
+  }
 
   const result = await aiResponse.json().catch(() => ({}));
   if (!aiResponse.ok) {
