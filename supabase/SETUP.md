@@ -1,6 +1,6 @@
 # Supabase setup for the PYP Planner
 
-This app is hosted on GitHub Pages. Supabase provides authentication and cloud storage; the AI mentor runs as a Supabase Edge Function so the OpenAI API key never reaches the browser.
+This app is hosted on GitHub Pages. Supabase provides authentication and cloud storage; the AI mentor runs as a Supabase Edge Function so the Gemini API key never reaches the browser.
 
 ## Important separation
 
@@ -43,14 +43,14 @@ Add them under **GitHub repository → Settings → Secrets and variables → Ac
 
 Deploy `supabase/functions/ai-mentor/index.ts` as an Edge Function named `ai-mentor`. Set these function secrets in the new Supabase project:
 
-- `OPENAI_API_KEY` — your OpenAI API key; enter it directly in Supabase secrets, not in GitHub files or frontend code
-- `OPENAI_MODEL` — optional; defaults to `gpt-5-mini`
+- `GEMINI_API_KEY` — your Google AI Studio Gemini API key; enter it directly in Supabase secrets, not in GitHub files or frontend code
+- `GEMINI_MODEL` — optional; defaults to `gemini-2.5-flash`
 
-Supabase provides `SUPABASE_URL` and `SUPABASE_ANON_KEY` to Edge Functions. The function requires a valid signed-in user session before calling OpenAI.
+Supabase provides `SUPABASE_URL` and `SUPABASE_ANON_KEY` to Edge Functions. The function requires a valid signed-in user session before calling Gemini. If Gemini returns a rate-limit error, wait before retrying; the free tier has usage limits.
 
 ## 6. Important current status
 
-These files prepare the backend schema and AI endpoint. The React app still needs its sign-in screen, cloud draft list/save/delete integration, and AI mentor controls wired to these services. Until that frontend integration is deployed and tested, existing browser-local drafts remain local and the AI mentor is not yet active.
+These files prepare the backend schema and AI endpoint. The React app still needs its sign-in screen, cloud draft list/save/delete integration, and AI mentor controls wired to these services. Until that frontend integration is deployed and tested, existing browser-local drafts remain local and the AI mentor is not yet active. The Edge Function source is configured for Gemini, but it must be deployed in Supabase before it can run.
 
 ## 7. Pilot checklist before inviting other teachers
 
