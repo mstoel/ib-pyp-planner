@@ -60,7 +60,7 @@ Deno.serve(async (req: Request) => {
     extra_context: context,
   };
 
-  const model = Deno.env.get("GEMINI_MODEL") || "gemini-3.8-flash";
+  const model = Deno.env.get("GEMINI_MODEL") || "gemini-2.5-flash";
   let aiResponse: Response;
   try {
     aiResponse = await fetch(
@@ -96,7 +96,9 @@ Deno.serve(async (req: Request) => {
     if (aiResponse.status === 429) {
       return json({ error: "Gemini's current usage limit has been reached. Please wait a little and try again." }, 429);
     }
-    return json({ error: "The AI mentor could not complete this request. Check the Gemini API key and model settings, then try again." }, 502);
+    const providerMessage = typeof result?.error?.message === "string" ? result.error.message.slice(0, 240) : "No additional details were provided.";
+    console.error("Gemini API error details", aiResponse.status, providerMessage);
+    return json({ error: "Gemini API error (" + aiResponse.status + "): " + providerMessage }, 502);
   }
 
   const text = (result.candidates?.[0]?.content?.parts ?? [])
