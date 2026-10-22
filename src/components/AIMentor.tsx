@@ -48,7 +48,26 @@ export default function AIMentor({ plan, lessons, floating = false, pageName = '
       if (!data?.text) throw new Error('The mentor returned no advice. Please try again.');
       setAnswer(data.text);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'The AI mentor could not respond. Please try again.');
+      let message = e instanceof Error ? e.message : 'The AI mentor could not respond. Please try again.';
+      // Supabase wraps non-2xx Edge Function responses in an error whose
+      // context is the Response. Read its JSON body so the real server error
+      // (for example a Gemini model or API-key error) is visible to the user.
+      if (e && typeof e === 'object' && 'context' in e) {
+        const response = (e as { context?: unknown }).context;
+        if (response instanceof Response) {
+          try {
+            const payload = await response.clone().json();
+            if (typeof payload?.error === 'string' && payload.error.trim()) {
+              message = payload.error;
+            } else {
+              message = `AI function request failed (HTTP ${response.status}). ${message}`;
+            }
+          } catch {
+            message = `AI function request failed (HTTP ${response.status}). ${message}`;
+          }
+        }
+      }
+      setError(message);
     } finally {
       setBusy(false);
     }
